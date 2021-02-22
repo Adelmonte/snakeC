@@ -3,6 +3,21 @@
 
 //console: 36 l; 100 c
 
+//Constants
+
+#define UP_ARROW (char) 'W'
+#define LEFT_ARROW (char) 'A'
+#define RIGHT_ARROW (char) 'D'
+#define DOWN_ARROW (char) 'S'
+
+#define ENTER_KEY 10
+
+#define SNAKE_HEAD (char) 'H'
+#define SNAKE_BODY (char) 'B'
+#define FOOD (char) 'X'
+#define BLANK (char) ' '
+
+
 void  moveCursor(int x, int y);
 void  drawCanvas(int x, int y);
 char  kbPressed();
