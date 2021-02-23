@@ -25,6 +25,7 @@ int* pickFoodLocation(int x, int y);
 int* updateHeadPosition(int x, int y);
 void snake();
 void clrscr();
+void print(int x, int y);
 
 int main()
 {
@@ -45,10 +46,31 @@ void snake()
 	int position[] = {0,0};
 	int* pPosition;
 	pPosition=&position[0];
+	
+	moveCursor(15,15);
+	printf("%c", FOOD);
+	int i=0;
+	for (i=0;i<5;i++)
+	{
+		char c = kbPressed();
+		switch (c)
+		{	
+			case UP_ARROW: print(16,15); break;
+			case DOWN_ARROW: print(14,15); break;
+			case LEFT_ARROW: print(15,14); break;
+			case RIGHT_ARROW: print(15,16); break;
+		}
+	}
 
 	drawCanvas(36,100); // enables a console of that size
 	 
 } 
+
+void print(int x, int y)
+{
+	moveCursor(x,y);
+	printf("%c",FOOD);
+}
 
 // clrscr();
 //
@@ -88,6 +110,8 @@ int* pickFoodLocation(int x, int y)
 char kbPressed()
 {
 	char c=NULL;
+	scanf("%c",c); // maybe it won't work because scanf block the thread of execution
+		       // until it's pressed a key and not listen in the event of a key pressed
 	return c;
 }
 
