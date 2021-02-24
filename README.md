@@ -1,6 +1,6 @@
 # Snake : What about that project?
 
-This project aims to recreate in linux: CentOS -text mode, the Snake game from the 1976 arcade game Blockade.
+This project aims to recreate in Linux: CentOS -text mode, the Snake game from the 1976 arcade game Blockade. The programming language for this project is C.
 
 # Warning 
 
