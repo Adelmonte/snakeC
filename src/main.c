@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <termios.h>
+#include <termios.h> //For more info: pubs.openfroup.org/onlinepubs/7908799/xsh/termios.h.html
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/time.h>
@@ -142,14 +142,40 @@ int kbHit()
 	int oldf;
 	int r;
 
-	tcgetattr(STDIN_FILENO, &oldt);
+	tcgetattr(STDIN_FILENO, &oldt); 
+	/*
+		int tcgetattr(int fildes, struct termios *termios_pointer)	
+		Usage: Get the parameters associated with the terminal refferred to by fildes and store them in the termios structure refferenced by termios_pointer
+		Parameters: fildes -> open file descriptor asociated with the terminal
+			    termios_pointer -> a pointer to a termios struct
+		OBS: STDIN_FILENO is a file descriptor and determines the default way of io communication - the console. It is a macro defined in /usr/include/unistd.h
+		For more info: pubs.opengroup.org/oninepubs/007904975/functions/tcgetattr.html
+	*/
 	newt = oldt;
 	newt.c_lflag &= ~(ICANON | ECHO);
 	tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+	/*
+		int tcsetattr(int fildes, int optional_actions, const struct termios *termios_p)
+		Usage: In this mode, set the parameters associated with the terminal refferred to by fildes and store them in the termios structure refferenced by termios_p. Because optional_actions is set to TCSANOW, the change shall occur immidiately.
+		More info: pubs.opengroup.org/oninepubs/007904975/functions/tcsetattr.html
+	*/
+
 	oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
 	fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
+	/*
+		int fcntl(int filedes, int cmd, ... )
+		Usage: Set a file status flags, defined in <fcntl.h>
+		More info: pubs.opengroup.org/onlinepubs/009604599/functions/fcntl.html
+		Example: can be used for locking and unlocking a file
+	*/
 
 	ch = getchar();
+	/*
+		int getchar(void)
+		Usage: Reads a single character from the standard imput stream stdin, and returns itas a code.
+		More info: cplusplus.com/reference/cstdio/getchar/
+
+	*/
 
 	tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
 	fcntl(STDIN_FILENO, F_SETFL, oldf);
@@ -157,6 +183,11 @@ int kbHit()
 	if (ch !=EOF)
 	{
 		ungetc(ch, stdin);
+		/*
+			int ungetc(int char, FILE *stream)
+			Usage: inserts int char in the stream FILE *stream.
+			More info: tutorialspoint.com/c_standard_library/c_function_ungetc.htm
+		*/
 		r=1;
 	}
 	else r=0;
