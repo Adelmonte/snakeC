@@ -32,13 +32,20 @@ int* updateHeadPosition(int x, int y);
 void startSnakeGame();
 void clrscr();
 void print(int x, int y);
-int kbHit();
+int kbHit(int *p);
 int kbHit2();
 
 int main()
 {
 	system("clear");
-	startSnakeGame();
+//	startSnakeGame();
+	int *p;
+	while ( !kbHit(p))
+	{	
+		printf("Press a key! \n");
+	}
+	printf("%c", &p); // this does nothing
+//	printf("You pressed %c !", getchar());
 	return 0;
 }
 
@@ -135,7 +142,7 @@ int* pickFoodLocation(int x, int y)
 // Paraneters: none
 // Return:int 1 -> if was pressed a key on keyboard
 //		0 -> if not
-int kbHit()
+int kbHit(int *c)
 {
 	struct termios oldt, newt;
 	int ch;
@@ -191,6 +198,7 @@ int kbHit()
 		r=1;
 	}
 	else r=0;
+	c=&ch;
 	return r;
 	
 
