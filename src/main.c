@@ -42,13 +42,13 @@ int*  updateHeadPosition(int x, int y);
 int main()
 {
 	system("clear");
-//	startSnakeGame();
-	char c = NULL;
-	while (&c!=NULL)
-	{	
-		c=getKeyWhenPressed();
-	}
-	printf("You pressed %c !", c);
+	startSnakeGame();
+//	char c = NULL;
+//	while (&c!=NULL)
+//	{	
+//		c=getKeyWhenPressed();
+//	}
+//	printf("You pressed %c !", c);
 	return 0;
 }
 
@@ -74,7 +74,7 @@ void collisionDetector()
 // Translates the user command in numerical friendly value.
 // Parameters: void
 // Return: int[2] -> int[0] stores the x coordinate
-		  -> int[1] stores the y coordinate
+//		  -> int[1] stores the y coordinate
 int* directionalInput()
 {
 	int* pointer;
@@ -223,25 +223,21 @@ void startSnakeGame()
 
 	int position[] = {0,0};
 	int* pPosition;
-	pPosition=&position[0];
-	
-	moveCursor(15,15);
-	printf("%c", FOOD);
-	int i=0;
-	for (i=0;i<5;i++)
-	{
-		char c = getKeyWhenPressed();
-		switch (c)
-		{	
-	//		case UP_ARROW: print(16,15); break;
-	//		case DOWN_ARROW: print(14,15); break;
-	//		case LEFT_ARROW: print(15,14); break;
-	//		case RIGHT_ARROW: print(15,16); break;
-		}
-	}
+	pPosition=&position[0];	
+
+	int* nextDirection=NULL;
+	int x = 10;
+	int y = 10;	
 
 	drawCanvas(36,100); // enables a console of that size
-	 
+	while (1)
+	{
+		moveCursor(x,y);
+		printf("%c" , SNAKE_HEAD);
+		nextDirection=directionalInput(); //return the direction coordinates for next move
+		x=x + *nextDirection;
+		y=y + *(nextDirection+1);
+	}
 } 
 
 
