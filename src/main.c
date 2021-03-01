@@ -28,6 +28,7 @@
 
 void  clrscr();
 void  collisionDetector();
+int*  directionalInput();
 void  drawCanvas(int x, int y);
 char  getKeyWhenPressed();
 int   kbHit();
@@ -67,6 +68,28 @@ void clrscr()
 void collisionDetector()
 {
 
+}
+
+// directionalInput()
+// Translates the user command in numerical friendly value.
+// Parameters: void
+// Return: int[2] -> int[0] stores the x coordinate
+		  -> int[1] stores the y coordinate
+int* directionalInput()
+{
+	int* pointer;
+	int direction[] = { 0, 0};
+	char c = getKeyWhenPressed();
+	switch (c)
+	{
+		case UP_ARROW : { direction[0] = 0; direction[1] = -1; } break;
+		case DOWN_ARROW : { direction[0] = 0; direction[1] = 1; } break;
+		case RIGHT_ARROW : { direction[0] = 1; direction[1] = 0; } break;
+		case LEFT_ARROW : { direction[0] = -1; direction[1] = 0; } break;
+		default: { direction[0] = -1; direction[1] = -1; }
+	}
+	*pointer=*direction;
+	return pointer;
 }
 
 // drawCanvas(int x, int y);
