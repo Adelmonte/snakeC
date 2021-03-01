@@ -29,7 +29,7 @@
 void  clrscr();
 void  collisionDetector();
 void  drawCanvas(int x, int y);
-char  getKeyPressed();
+char  getKeyWhenPressed();
 int   kbHit();
 void  moveCursor(int x, int y);
 int*  pickFoodLocation(int x, int y);
@@ -42,13 +42,12 @@ int main()
 {
 	system("clear");
 //	startSnakeGame();
-	int *p;
-	while ( !kbHit(p))
+	char c = NULL;
+	while (&c!=NULL)
 	{	
-		printf("Press a key! \n");
+		c=getKeyWhenPressed();
 	}
-	printf("%c", &p); // this does nothing
-//	printf("You pressed %c !", getchar());
+	printf("You pressed %c !", c);
 	return 0;
 }
 
@@ -80,15 +79,17 @@ void drawCanvas(int x, int y)
 	// to be filled
 }
 
-// getKeyPressed()
-// Sense if a key on the keyboard was pressed
+// getKeyWhenPressed()
+// Test if a key on the keyboard was pressed.
 // Parameters: none
 // Return: char, the ascii code of the key pressed
-char getKeyPressed()
+char getKeyWhenPressed()
 {
 	char c=NULL;
-	scanf("%c",c); // maybe it won't work because scanf block the thread of execution
-		       // until it's pressed a key and is not listening in the event of a pressed ke
+	if (kbHit())
+	{
+		c=getchar();
+	}
 	return c;
 }
 
@@ -146,7 +147,7 @@ int kbHit()
 
 	if (ch !=EOF)
 	{
-		ungetc(ch, stdin);
+//		ungetc(ch, stdin);
 		/*
 			int ungetc(int char, FILE *stream)
 			Usage: inserts int char in the stream FILE *stream.
@@ -160,7 +161,7 @@ int kbHit()
 
 // moveCursor(int x, int y);
 // Move the console cursor to a specific destination. Uses ESC character : 0x1b.
-// To be used in t console with text writing mode enabled.
+// To be used in a console with text writing mode enabled.
 // Parameters: int x -> number of lines
 //		int y -> number of collumns
 // Return: void
@@ -206,10 +207,10 @@ void startSnakeGame()
 	int i=0;
 	for (i=0;i<5;i++)
 	{
-		char c = getKeyPressed();
+		char c = getKeyWhenPressed();
 		switch (c)
 		{	
-	///		case UP_ARROW: print(16,15); break;
+	//		case UP_ARROW: print(16,15); break;
 	//		case DOWN_ARROW: print(14,15); break;
 	//		case LEFT_ARROW: print(15,14); break;
 	//		case RIGHT_ARROW: print(15,16); break;
