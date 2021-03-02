@@ -10,10 +10,10 @@
 
 //Constants
 
-#define UP_ARROW (char) 'W'
-#define LEFT_ARROW (char) 'A'
-#define RIGHT_ARROW (char) 'D'
-#define DOWN_ARROW (char) 'S'
+#define UP_ARROW (char) 'w'
+#define LEFT_ARROW (char) 'a'
+#define RIGHT_ARROW (char) 'd'
+#define DOWN_ARROW (char) 's'
 
 #define ENTER_KEY 10
 
@@ -28,7 +28,7 @@
 
 void  clrscr();
 void  collisionDetector();
-int*  directionalInput();
+int*  directionalInput(int dir[]);
 void  drawCanvas(int x, int y);
 char  getKeyWhenPressed();
 int   kbHit();
@@ -41,7 +41,7 @@ int*  updateHeadPosition(int x, int y);
 
 int main()
 {
-	system("clear");
+	clrscr();
 	startSnakeGame();
 //	char c = NULL;
 //	while (&c!=NULL)
@@ -49,6 +49,7 @@ int main()
 //		c=getKeyWhenPressed();
 //	}
 //	printf("You pressed %c !", c);
+	clrscr();
 	return 0;
 }
 
@@ -75,20 +76,21 @@ void collisionDetector()
 // Parameters: void
 // Return: int[2] -> int[0] stores the x coordinate
 //		  -> int[1] stores the y coordinate
-int* directionalInput()
+int* directionalInput(int direction[])
 {
 	int* pointer;
-	int direction[] = { 0, 0};
+	direction[0] = 0;
+	direction[1] = 0;
 	char c = getKeyWhenPressed();
 	switch (c)
 	{
-		case UP_ARROW : { direction[0] = 0; direction[1] = -1; } break;
-		case DOWN_ARROW : { direction[0] = 0; direction[1] = 1; } break;
-		case RIGHT_ARROW : { direction[0] = 1; direction[1] = 0; } break;
-		case LEFT_ARROW : { direction[0] = -1; direction[1] = 0; } break;
-		default: { direction[0] = -1; direction[1] = -1; }
+		case UP_ARROW : { direction[0] = -1; direction[1] = 0;} break;
+		case DOWN_ARROW : { direction[0] = 1; direction[1] = 0; } break;
+		case RIGHT_ARROW : { direction[0] = 0; direction[1] = 1; } break;
+		case LEFT_ARROW : { direction[0] = 0; direction[1] = -1; } break;
+		default: { direction[0] = 0; direction[1] = 0; }
 	}
-	*pointer=*direction;
+	pointer=direction;
 	return pointer;
 }
 
@@ -170,7 +172,7 @@ int kbHit()
 
 	if (ch !=EOF)
 	{
-//		ungetc(ch, stdin);
+		ungetc(ch, stdin);
 		/*
 			int ungetc(int char, FILE *stream)
 			Usage: inserts int char in the stream FILE *stream.
@@ -228,15 +230,20 @@ void startSnakeGame()
 	int* nextDirection=NULL;
 	int x = 10;
 	int y = 10;	
-
+//	int i=0;
+	int direction[] = { 0,0};
 	drawCanvas(36,100); // enables a console of that size
-	while (1)
-	{
-		moveCursor(x,y);
-		printf("%c" , SNAKE_HEAD);
-		nextDirection=directionalInput(); //return the direction coordinates for next move
-		x=x + *nextDirection;
-		y=y + *(nextDirection+1);
+	while (1)	
+	{	if ((x==-1)||(y==-1))
+		break;
+		else
+		{
+			moveCursor(x,y);
+			printf("%c" , SNAKE_HEAD);
+			nextDirection=directionalInput(direction); //return the direction coordinates for next move
+			x=x + *nextDirection;
+			y=y + *(nextDirection+1);
+		}
 	}
 } 
 
