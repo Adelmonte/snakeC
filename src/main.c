@@ -35,7 +35,7 @@ int   kbHit();
 void  moveCursor(int x, int y);
 int*  pickFoodLocation(int x, int y);
 void  startSnakeGame();
-int*  updateHeadPosition(int x, int y);
+void  updateHeadPosition(int *x, int *y, int *arrayP);
 
 // Functions
 
@@ -230,27 +230,44 @@ void startSnakeGame()
 	int* nextDirection=NULL;
 	int x = 10;
 	int y = 10;	
-//	int i=0;
+	int i=0;
 	int direction[] = { 0,0};
 	drawCanvas(36,100); // enables a console of that size
+	moveCursor(x,y);
+	printf("%c" , SNAKE_HEAD);
+x++;
 	while (1)	
 	{	if ((x==-1)||(y==-1))
 		break;
 		else
 		{
+			
 			moveCursor(x,y);
-			printf("%c" , SNAKE_HEAD);
+			if (i==0)
+			{
+				i++;
+				printf("%c" , SNAKE_HEAD);
+			}
+			else
+				printf("%c" , SNAKE_BODY);
 			nextDirection=directionalInput(direction); //return the direction coordinates for next move
-			x=x + *nextDirection;
-			y=y + *(nextDirection+1);
+			updateHeadPosition(&x,&y,nextDirection);
+	
+
+
 		}
 	}
 } 
 
 
-// updateHeadPosition(int x, int y);
+// updateHeadPosition(int *x, int *y, int *arrayP);
 //
-// Parameters: int x ->
-//		int y ->
-// Return: int[], an array of 2 with the updated coordinates (x,y)
-int* updateHeadPosition(int x, int y);
+// Parameters:  int *x -> pointer to an int variable that stores the x coordinate of the snake's head
+//		int *y -> pointer to an int variable that stores the y coodrinate of the snake's head
+//		int *arrayP -> pointer to an array of 2 slots that stores the x and y coordinate of the translated key input
+// Return: void
+void updateHeadPosition(int *x, int *y, int *arrayP)
+{
+	*x=*x + *arrayP;
+	*y=*y + *(arrayP+1);
+}
